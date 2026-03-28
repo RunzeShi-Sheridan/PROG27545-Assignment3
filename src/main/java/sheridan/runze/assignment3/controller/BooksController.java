@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import sheridan.runze.assignment3.data.Book;
 import sheridan.runze.assignment3.data.BookRepository;
+import sheridan.runze.assignment3.errors.BookNotFoundException;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class BooksController {
 
     @GetMapping("/api/books/{id}")
     public Book getBookById(@PathVariable String id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 }
